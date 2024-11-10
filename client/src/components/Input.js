@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-const Input = ({ type, placeholder, value, onChange, onKeyDown }) => {
+const Input = ({
+  type,
+  placeholder,
+  value,
+  onChange,
+  onKeyDown,
+  className,
+}) => {
   return (
     <input
       type={type}
@@ -8,7 +15,7 @@ const Input = ({ type, placeholder, value, onChange, onKeyDown }) => {
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      className="border-2 rounded p-2  w-full my-2"
+      className={`border-2 rounded p-2  w-full my-2 outline-none  ${className}`}
     />
   );
 };

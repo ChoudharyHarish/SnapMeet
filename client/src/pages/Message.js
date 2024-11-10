@@ -15,12 +15,15 @@ const Message = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await getUsers();
-      setUsers(response.data.data);
-    };
-
-    fetchUsers();
+    try {
+      const fetchUsers = async () => {
+        const response = await getUsers();
+        setUsers(response.data.data);
+      };
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return (

@@ -9,20 +9,30 @@ import {
   Post,
   Profile,
   Room,
+  Search,
 } from "./pages";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/inbox" element={<Message />} />
+        <Route element={<MainLayout expanded={true} />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+
+        <Route element={<MainLayout expanded={false} />}>
+          <Route path="/inbox" element={<Message />} />
+        </Route>
+
         <Route path="/chat/:receiverId" element={<Chat />} />
         <Route path="/rooms/:roomId" element={<Room />} />
-        <Route path="/explore" element={<Explore />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/post:id" element={<Post />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/post/:id" element={<Post />} />
       </Routes>
     </Router>
   );
