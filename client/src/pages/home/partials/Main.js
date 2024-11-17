@@ -4,6 +4,7 @@ import PostCard from "../../../components/Cards/PostCard";
 const Main = () => {
   const posts = [
     {
+      id: 1,
       userImage:
         "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
       userName: "Mona Lisa",
@@ -14,10 +15,44 @@ const Main = () => {
         "https://images.pexels.com/photos/28830104/pexels-photo-28830104/free-photo-of-scenic-pathway-leading-to-arch-bridge-in-mountains.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
       ],
       likes: 245,
-      comments: 13,
+      comments: [
+        {
+          userName: "Harish",
+          comment: "Good Post",
+          likes: 20,
+          timeStamp: "2hr",
+          userImage:
+            "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
+        },
+        {
+          userName: "Harish",
+          comment: "Good Post",
+          likes: 20,
+          timeStamp: "2hr",
+          userImage:
+            "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
+        },
+        {
+          userName: "Harish",
+          comment: "Good Post",
+          likes: 20,
+          timeStamp: "2hr",
+          userImage:
+            "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
+        },
+        {
+          userName: "Harish",
+          comment: "Good Post",
+          likes: 20,
+          timeStamp: "2hr",
+          userImage:
+            "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
+        },
+      ],
       caption: "Had a great time at the beach!",
     },
     {
+      id: 2,
       userImage:
         "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
       userName: "Mona Lisa",
@@ -34,7 +69,7 @@ const Main = () => {
   ];
 
   return (
-    <section>
+    <section className="flex flex-col gap-4">
       {posts.map((post) => (
         <PostCard {...post} />
       ))}

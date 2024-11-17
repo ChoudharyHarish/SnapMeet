@@ -20,6 +20,7 @@ function App() {
         <Route element={<MainLayout expanded={true} />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/post/:id" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/profile" element={<Profile />} />
@@ -32,7 +33,6 @@ function App() {
         <Route path="/chat/:receiverId" element={<Chat />} />
         <Route path="/rooms/:roomId" element={<Room />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/post/:id" element={<Post />} />
       </Routes>
     </Router>
   );

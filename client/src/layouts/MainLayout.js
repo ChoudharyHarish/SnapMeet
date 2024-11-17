@@ -2,9 +2,9 @@
 import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-import BottomBar from "../components/Navbar/BottomBar";
-import SideBar from "../components/Navbar/SideBar";
-import TopBar from "../components/Navbar/TopBar";
+import BottomBar from "../components/navbar/BottomBar";
+import SideBar from "../components/navbar/SideBar";
+import TopBar from "../components/navbar/TopBar";
 
 const MainLayout = (props) => {
   const { expanded } = props;

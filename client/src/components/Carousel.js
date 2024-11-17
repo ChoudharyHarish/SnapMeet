@@ -9,7 +9,7 @@ const Indicator = (props) => {
 };
 
 const Carousel = (props) => {
-  const { images } = props;
+  const { images, height } = props;
   const [slideIndex, setSlideIndex] = useState(0);
 
   const handleNext = () => {
@@ -28,10 +28,15 @@ const Carousel = (props) => {
 
       <div
         className="image-container"
-        style={{ transform: `translateX(-${slideIndex * 500}px)` }}
+        style={{ transform: `translateX(-${slideIndex * 100}%)` }}
       >
         {images.map((image, i) => (
-          <img key={i} src={image} alt={`slide-${i}`} />
+          <img
+            key={i}
+            src={image}
+            alt={`slide-${i}`}
+            // className={`max-h-[${height}]`}
+          />
         ))}
       </div>
 

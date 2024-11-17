@@ -9,7 +9,7 @@ const TopBar = () => {
   const [searchVal, setSearchVal] = useState("");
 
   return (
-    <header className="md:hidden  flex items-center fixed w-full gap-6 px-8">
+    <header className="md:hidden  flex items-center fixed w-full gap-6 px-2 bg-white z-[1000]">
       <img src={Images.Logo} alt="logo" className="h-8 w-8" />
       <Input
         type="text"

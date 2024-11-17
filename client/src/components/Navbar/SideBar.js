@@ -18,7 +18,7 @@ const SideBar = (props) => {
   return (
     <div
       className={`h-screen bg-white border-r transition-width duration-30 flex-col justify-between hidden md:flex ${
-        expanded && "lg:w-60"
+        expanded && "lg:w-72"
       }`}
     >
       <div>

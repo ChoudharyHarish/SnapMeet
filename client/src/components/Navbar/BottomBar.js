@@ -14,7 +14,7 @@ const BottomBar = () => {
   ];
 
   return (
-    <section className="md:hidden fixed bottom-0 flex border-2 w-full justify-between px-8 py-3">
+    <section className="md:hidden fixed bottom-0 flex border-2 w-full justify-between px-8 py-3 bg-white">
       {list.map((item) => (
         <ListItem {...item} className={styles.item} />
       ))}
