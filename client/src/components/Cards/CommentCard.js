@@ -12,15 +12,17 @@ const CommentCard = (props) => {
       />
       <div className="flex flex-col w-full">
         <div className="flex gap-2 justify-between w-full">
-          <p className="font-semibold text-gray-900 text-sm hover:text-gray-500 cursor-pointer">
+          <p className="font-semibold text-textPrimary text-sm hover:text-gray-500 cursor-pointer">
             {userName}
           </p>
-          <p className="text-gray-500 text-sm break-words flex-1">{comment}</p>
-          <Icon icon="mdi:heart-outline" className="h-6 w-6" />
+          <p className="text-textPrimary text-sm break-words flex-1">
+            {comment}
+          </p>
+          <Icon icon="mdi:heart-outline" className="h-6 w-6 text-textPrimary" />
         </div>
         <div className="flex gap-2 text-xs">
-          <p>{timeStamp}</p>
-          {likes && <p>{likes} likes</p>}
+          <p className="text-textSecondary">{timeStamp}</p>
+          {likes && <p className="text-textSecondary">{likes} likes</p>}
         </div>
       </div>
     </summary>

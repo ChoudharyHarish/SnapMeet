@@ -25,10 +25,10 @@ const Post = (props) => {
       onClick={closePostModal}
     >
       <div
-        className="flex flex-col lg:flex-row h-full border-2 "
+        className="flex flex-col lg:flex-row h-full"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative bg-white max-w-[500px]  ">
+        <div className="relative bg-background max-w-[500px]  ">
           {images.length > 1 ? (
             <Carousel images={images} height={"100%"} />
           ) : (
@@ -39,10 +39,10 @@ const Post = (props) => {
             />
           )}
         </div>
-        <div className="bg-white h-full p-4">
+        <div className="bg-background h-full p-4">
           <UserCard userImage={userImage} userName={userName} />
-          <div className="border-b border-gray-300 my-2"></div>
-          <div className="flex flex-col gap-3">
+          <div className="border-b border-border my-2"></div>
+          <div className="flex flex-col gap-5">
             {caption && (
               <CommentCard
                 userImage={userImage}

@@ -31,12 +31,7 @@ const Carousel = (props) => {
         style={{ transform: `translateX(-${slideIndex * 100}%)` }}
       >
         {images.map((image, i) => (
-          <img
-            key={i}
-            src={image}
-            alt={`slide-${i}`}
-            // className={`max-h-[${height}]`}
-          />
+          <img key={i} src={image} alt={`slide-${i}`} />
         ))}
       </div>
 

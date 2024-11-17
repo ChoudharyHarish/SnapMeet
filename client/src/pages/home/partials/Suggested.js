@@ -12,12 +12,12 @@ const UserItem = (props) => {
         className="w-8 h-8 rounded-full object-cover"
       />
       <div className="text-sm">
-        <p>{userName}</p>
-        <p className="max-w-48 truncate text-gray-500">
+        <p className="text-textPrimary">{userName}</p>
+        <p className="max-w-48 truncate text-textSecondary text-xs">
           Followed by Harish,Akash and 27more
         </p>
       </div>
-      <Button name="Follow" className={styles.button} />
+      <Button name="Follow" className={`${styles.button} text-accent`} />
     </div>
   );
 };
@@ -47,8 +47,8 @@ const Suggested = () => {
   ];
 
   return (
-    <section className="hidden lg:flex flex-col gap-4">
-      <h1 className="text-2xl">List of suggested users</h1>
+    <section className="hidden xl:flex flex-col gap-4">
+      <h1 className="text-2xl text-textPrimary">List of suggested users</h1>
       {users.map((user) => (
         <UserItem {...user} />
       ))}

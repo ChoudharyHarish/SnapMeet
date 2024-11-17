@@ -9,7 +9,7 @@ const TopBar = () => {
   const [searchVal, setSearchVal] = useState("");
 
   return (
-    <header className="md:hidden  flex items-center fixed w-full gap-6 px-2 bg-white z-[1000]">
+    <header className="md:hidden  flex items-center fixed w-full gap-6 px-2 bg-background z-[1000] border-b border-border">
       <img src={Images.Logo} alt="logo" className="h-8 w-8" />
       <Input
         type="text"
@@ -17,7 +17,12 @@ const TopBar = () => {
         value={searchVal}
         onChange={(e) => setSearchVal(e.target.value)}
       />
-      <Button icon=<Icon icon="mdi:heart-outline" className="h-6 w-6" /> />
+      <Button
+        icon=<Icon
+          icon="mdi:heart-outline"
+          className="h-6 w-6 text-textPrimary"
+        />
+      />
     </header>
   );
 };

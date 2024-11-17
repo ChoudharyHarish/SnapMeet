@@ -5,7 +5,7 @@ import Suggested from "./partials/Suggested";
 
 const Home = () => {
   return (
-    <section className="flex w-full justify-around py-4">
+    <section className="flex p-4 md:px-0  justify-evenly w-full bg-background">
       <Main />
       <Suggested />
     </section>

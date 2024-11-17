@@ -14,7 +14,7 @@ const MainLayout = (props) => {
         <div className="flex flex-col md:flex-row w-full">
           <SideBar expanded={expanded} />
           <TopBar />
-          <div className="mt-[60px] md:mt-0 w-full">
+          <div className="mt-[60px] md:mt-0 w-full md:pl-[72px] lg:pl-64">
             <Outlet />
           </div>
           <BottomBar />
