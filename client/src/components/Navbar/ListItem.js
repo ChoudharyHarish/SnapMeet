@@ -8,13 +8,10 @@ const ListItem = (props) => {
   const navigate = useNavigate();
   return (
     <div
+      onClick={() => navigate(to)}
       className={`flex items-center hover:bg-hover cursor-pointer p-4 gap-4 ${className}`}
     >
-      <Icon
-        icon={icon}
-        className="h-7 w-7 text-textPrimary"
-        onClick={() => navigate(to)}
-      />
+      <Icon icon={icon} className="h-7 w-7 text-textPrimary" />
       {expanded && (
         <Link to={`${to}`} className="hidden lg:block text-textPrimary">
           {name}

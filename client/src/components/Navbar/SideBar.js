@@ -17,8 +17,8 @@ const SideBar = (props) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-screen bg-background border-r border-border  transition-width duration-30 flex-col justify-between hidden md:flex ${
-        expanded && "lg:w-64"
+      className={`fixed z-100  h-full bg-background border-r border-border  transition-width duration-30 flex-col justify-between hidden md:flex ${
+        expanded && "lg:w-60"
       }`}
     >
       <div>

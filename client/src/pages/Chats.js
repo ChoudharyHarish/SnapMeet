@@ -4,12 +4,14 @@ import { Icon } from "@iconify/react";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { UserCard, MessageCard, Input, Button } from "../components";
+import { UserChatCard, MessageCard, Input, Button } from "../components";
 import chatSocket from "../socket/chatSocket";
 
-import { getMessages } from "../api/api";
+import { getMessages, getUsers } from "../api/api";
 import { signMessage } from "../utils/signMessage";
 import { verifyMessage } from "../utils/verifySignature";
+
+import { Images } from "../assets";
 
 const Chats = () => {
   const { receiverId } = useParams();
@@ -75,42 +77,93 @@ const Chats = () => {
     }
   };
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    try {
+      const fetchUsers = async () => {
+        const response = await getUsers();
+        setUsers(response.data.data);
+      };
+      fetchUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
-    <section className="w-[640px] mx-auto border-2 px-2">
-      <UserCard name={name} />
-      <div
-        className="flex flex-col gap-3 overflow-y-auto"
-        style={{ height: "calc(100vh - 125px)" }}
-      >
-        {messages?.map((message, index) => (
-          <div ref={index === messages.length - 1 ? messagesEndRef : null}>
-            <MessageCard {...message} />
+    <>
+      <div className="flex gap-8 lg:max-w-3/4 border-2">
+        <div className="md:border-r w-[300px]">
+          <div className="fixed px-6 py-4 border-r top-0 bg-background flex items-center justify-between  w-[300px]  gap-6 text-xl  leading-none">
+            <h2>harishchoudhary_17</h2>
+            <Icon icon="uil:edit" className="" />
           </div>
-        ))}
-      </div>
-      <div className="flex gap-2 items-center">
-        <Input
-          placeholder="Enter your message here"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              sendMessage();
-            }
-          }}
-        />
-        <Button
-          icon={
-            <Icon
-              icon="ic:round-send"
-              className="bg-green-500 rounded-full p-2 text-white"
-              style={{ fontSize: "36px" }}
+          <div
+            className="pt-14 flex flex-col gap-2 overflow-y-scroll"
+            style={{ height: "calc(100vh - 10px)" }}
+          >
+            <h2 className="px-6">Messages</h2>
+            <div className=" overflow-scroll  flex gap-2 flex-col">
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+              {users?.map((user) => (
+                <UserChatCard {...user} lastMessage="hi harish" />
+              ))}
+            </div>
+          </div>
+        </div>
+        <section className="w-3/4 mx-auto  px-2 h-screen overflow-scroll">
+          <UserChatCard name={name} />
+          <div className="border-b"></div>
+          <div
+            className="flex flex-col gap-3 overflow-y-auto pt-2"
+            style={{ height: "calc(100vh - 125px)" }}
+          >
+            {messages?.map((message, index) => (
+              <div ref={index === messages.length - 1 ? messagesEndRef : null}>
+                <MessageCard {...message} />
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2 items-center">
+            <Input
+              placeholder="Enter your message here"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
             />
-          }
-        />
+            <Button
+              icon={
+                <Icon
+                  icon="ic:round-send"
+                  className="bg-green-500 rounded-full p-2 text-white"
+                  style={{ fontSize: "36px" }}
+                />
+              }
+            />
+          </div>
+        </section>
       </div>
-    </section>
+    </>
   );
 };
 

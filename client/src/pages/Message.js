@@ -6,8 +6,9 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 
-import { UserCard } from "../components";
+import { UserChatCard } from "../components";
 import { getUsers } from "../api/api";
+import { Images } from "../assets";
 
 const Message = () => {
   // for temporary purpose just fetch from database and show all users of db
@@ -27,16 +28,30 @@ const Message = () => {
   }, []);
 
   return (
-    <>
-      <div className="flex gap-4 items-center">
-        <h2>harishchoudhary_17</h2>
-        <Icon icon="uil:edit" />
+    <div className="flex gap-8 lg:max-w-3/4  border-2">
+      <div className="md:border-r w-[300px]">
+        <div className="fixed px-6 py-4 border-r   top-0 bg-background flex items-center justify-between  gap-6 text-xl w-[300px] leading-none">
+          <h2>harishchoudhary_17</h2>
+          <Icon icon="uil:edit" className="" />
+        </div>
+        <div className="pt-14 flex flex-col gap-2">
+          <h2 className="px-6">Messages</h2>
+          <div className="h-screen overflow-scroll  flex gap-2 flex-col">
+            {users?.map((user) => (
+              <UserChatCard {...user} lastMessage="hi harish" />
+            ))}
+          </div>
+        </div>
       </div>
-      <h2>Messages</h2>
-      {users?.map((user) => (
-        <UserCard {...user} />
-      ))}
-    </>
+      <div className="flex flex-col justify-center items-center  flex-1">
+        <img
+          src={Images.Messaging}
+          className="max-w-[200px] h-auto -translate-y-1/2"
+          alt=""
+        />
+        <p className="-translate-y-1/2">Start Messaging Now</p>
+      </div>
+    </div>
   );
 };
 

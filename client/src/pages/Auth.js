@@ -19,8 +19,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { signUp, signIn, googleLogin } from "../redux/authSlice";
 
-// import useStyles from './styles';;
-
 import { jwtDecode } from "jwt-decode";
 
 const initialState = {

@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserCard = (props) => {
-  const { _id, name, publicKey } = props;
+const UserChatCard = (props) => {
+  const { _id, name, publicKey, lastMessage } = props;
   const navigate = useNavigate();
   return (
     <summary
-      className="flex gap-4 cursor-pointer py-2 border-b-2"
+      className="flex gap-4 cursor-pointer px-6 py-2 hover:bg-hover"
       onClick={() =>
         navigate(`/chat/${_id}`, {
           state: { name, receiverPublicKey: publicKey },
@@ -21,10 +21,11 @@ const UserCard = (props) => {
         />
       </figure>
       <div>
-        <h2>{name}</h2>
+        <h2 className="text-textPrimary">{name}</h2>
+        <p className="text-textSecondary text-sm">{lastMessage}</p>
       </div>
     </summary>
   );
 };
 
-export default UserCard;
+export default UserChatCard;
