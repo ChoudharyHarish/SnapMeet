@@ -1,10 +1,15 @@
 import Comment from "../models/comments.js";
+import Post from "../models/post.js";
 
 const addComment = async (req, res) => {
-  const { postId, userId, text } = req.body;
+  const { text } = req.body;
+  const { id: postId } = req.params;
+  const { userId } = req.user;
 
   try {
+    if (!text) return res.status(400).json({ message: "Empty comment" });
     const comment = new Comment({ postId, userId, text });
+    await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
     await comment.save();
 
     res.status(201).json({ message: "Comment added successfully.", comment });
@@ -15,7 +20,7 @@ const addComment = async (req, res) => {
 };
 
 const addLikeToComment = async (req, res) => {
-  const { commentId } = req.params;
+  const { id: commentId } = req.params;
 
   try {
     const comment = await Comment.findById(commentId);

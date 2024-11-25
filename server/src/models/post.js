@@ -1,48 +1,46 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
-  creatorId: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  images: [
-    {
-      url: {
-        type: String,
-        required: true,
-      },
-      key: {
-        type: String,
-        required: true,
-      },
+// for simplicity just storing the likes count we have like schema as well using which we can also find userid of who liked the post
+
+const PostSchema = new mongoose.Schema(
+  {
+    creatorId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
     },
-  ],
-  video: {
-    url: {
+    description: {
       type: String,
+      maxlength: 2200,
     },
-    key: {
-      type: String,
+    images: {
+      type: [
+        {
+          url: { type: String, required: true },
+          key: { type: String, required: true },
+        },
+      ],
+      validate: [(val) => val.length <= 7, "{PATH} exceeds the limit of 7"],
+    },
+    video: {
+      url: { type: String },
+      key: { type: String },
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    commentsCount: {
+      type: Number,
+      default: 0,
     },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 PostSchema.pre("save", function (next) {
   this.updatedAt = Date.now();

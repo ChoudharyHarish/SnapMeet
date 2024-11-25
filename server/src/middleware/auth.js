@@ -6,9 +6,10 @@ const authentication = async (req, res, next) => {
   if (!headers || !headers.startsWith("Bearer ")) {
     res.status(500).json("Authentication invalid");
   }
-  console.log(req.headers.authorization);
+
   console.log(headers);
-  const token = headers.split(" ")[1];
+
+  const token = headers?.split(" ")[1];
   try {
     if (token.length < 500) {
       const payload = jwt.verify(token, process.env.JWT_SECRET);

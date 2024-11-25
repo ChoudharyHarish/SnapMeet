@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -18,19 +18,27 @@ import {
   Search,
 } from "./pages";
 import MainLayout from "./layouts/MainLayout";
+import { login } from "./redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const location = useLocation();
   const state = location.state;
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(login());
+  }, []);
+
   return (
     <>
       {/* Main Routes */}
       <Routes location={state?.background || location}>
-        <Route element={<MainLayout expanded={true} />}>
+        <Route element={<MainLayout expanded={true} addPadding={true} />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/explore" element={<Explore />} />
         </Route>

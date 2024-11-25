@@ -6,7 +6,7 @@ const UserChatCard = (props) => {
   const navigate = useNavigate();
   return (
     <summary
-      className="flex gap-4 cursor-pointer px-6 py-2 hover:bg-hover"
+      className="flex gap-4 cursor-pointer px-6 py-2 hover:bg-hover bg-background"
       onClick={() =>
         navigate(`/chat/${_id}`, {
           state: { name, receiverPublicKey: publicKey },
@@ -20,7 +20,7 @@ const UserChatCard = (props) => {
           className="rounded-full h-12 w-12"
         />
       </figure>
-      <div>
+      <div className="flex flex-col justify-center">
         <h2 className="text-textPrimary">{name}</h2>
         <p className="text-textSecondary text-sm">{lastMessage}</p>
       </div>

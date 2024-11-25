@@ -23,6 +23,7 @@ code {
 
 :root {
   --background-color: #ffffff;
+  --background-secondary: rgb(239, 239, 239);
   --text-primary: #1c1e21;
   --text-secondary: #606770;
   --accent-color: #1877f2;
@@ -35,6 +36,8 @@ code {
 
 .dark {
   --background-color: #18191a;
+  --background-secondary: rgb(48, 48, 48);
+
   --text-primary: #e4e6eb;
   --text-secondary: #b0b3b8;
   --accent-color: #2d88ff;

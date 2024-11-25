@@ -1,5 +1,8 @@
+import mongoose from "mongoose";
+
 import Post from "../models/post.js";
 
+// user related stuff for post
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.aggregate([
@@ -36,9 +39,15 @@ const getPosts = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const { creatorId, title, description, images, video } = req.body;
+  const { description, images, video } = req.body;
+  const { userId } = req.user;
 
-  const newPost = new Post({ creatorId, title, description, images, video });
+  const newPost = new Post({
+    creatorId: userId,
+    description,
+    images,
+    video,
+  });
 
   try {
     await newPost.save();
@@ -79,4 +88,144 @@ const deletePost = async (req, res) => {
   }
 };
 
-export { getPosts, updatePost, createPost, deletePost };
+// common for all users
+const getAllPosts = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  try {
+    const currentPage = parseInt(page);
+    const skip = (currentPage - 1) * limit;
+    const limitValue = parseInt(limit);
+
+    const posts = await Post.aggregate([
+      {
+        $skip: skip,
+      },
+      {
+        $limit: limitValue,
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      {
+        $unwind: "$creator",
+      },
+      {
+        $project: {
+          description: 1,
+          images: 1,
+          video: 1,
+          createdAt: 1,
+          creatorId: 1,
+          comments: "$commentsCount",
+          likes: 1,
+          userName: "$creator.userName",
+          userImage: "$creator.userImage",
+        },
+      },
+    ]);
+
+    const total = await Post.countDocuments();
+    const totalPages = Math.ceil(total / limitValue);
+
+    const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+    const prevPage = currentPage > 1 ? currentPage - 1 : null;
+
+    res.status(200).json({
+      posts,
+      prevPage,
+      nextPage,
+      total,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+const getPost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ message: "Post ID is required" });
+
+  try {
+    const post = await Post.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) },
+      },
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comments",
+          pipeline: [
+            {
+              $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user",
+              },
+            },
+            {
+              $unwind: {
+                path: "$user",
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $project: {
+                likes: 1,
+                createdAt: 1,
+                userName: "$user.userName",
+                userImage: "$user.userImage",
+                comment: "$text",
+              },
+            },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "creatorId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $project: {
+          _id: 1,
+          description: 1,
+          images: 1,
+          videos: 1,
+          likes: 1,
+          createdAt: 1,
+          userName: "$user.userName",
+          userImage: "$user.userImage",
+          comments: 1,
+        },
+      },
+    ]);
+
+    if (!post || post.length === 0) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    return res.status(200).json({ post: post[0] });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export { getPosts, updatePost, createPost, deletePost, getAllPosts, getPost };

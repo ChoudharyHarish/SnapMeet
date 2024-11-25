@@ -28,9 +28,9 @@ const Message = () => {
   }, []);
 
   return (
-    <div className="flex gap-8 lg:max-w-3/4  border-2">
-      <div className="md:border-r w-[300px]">
-        <div className="fixed px-6 py-4 border-r   top-0 bg-background flex items-center justify-between  gap-6 text-xl w-[300px] leading-none">
+    <div className="flex gap-8 lg:max-w-3/4 bg-background text-textPrimary">
+      <div className="md:border-r border-border w-[300px]">
+        <div className="fixed  px-6 py-4 border-border border-r border-l  top-0 bg-background flex items-center justify-between  gap-6 text-xl w-[300px] leading-none">
           <h2>harishchoudhary_17</h2>
           <Icon icon="uil:edit" className="" />
         </div>

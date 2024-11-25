@@ -26,6 +26,10 @@ export const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    login: (state) => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      state.user = user;
+    },
     logout: (state) => {
       const profile = localStorage.getItem("profile");
       if (profile?.length > 500) {
@@ -50,9 +54,8 @@ export const authSlice = createSlice({
     builder.addCase(signUp.fulfilled, (state, action) => {
       const result = action.payload.data;
       state.user = {
-        name: result.name,
         userId: result.id,
-        email: result.email,
+        token: result.token,
         privateKey: result.privateKey,
         publicKey: result.publicKey,
       };
@@ -63,9 +66,7 @@ export const authSlice = createSlice({
     builder.addCase(signIn.fulfilled, (state, action) => {
       const result = action.payload.data;
       state.user = {
-        name: result.name,
         userId: result.id,
-        email: result.email,
         privateKey: result.privateKey,
         publicKey: result.publicKey,
       };
@@ -76,5 +77,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout, googleLogin, googleLogOut } = authSlice.actions;
+export const { login, logout, googleLogin } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,55 +5,66 @@ import React, { useState } from "react";
 import Carousel from "../Carousel";
 import UserCard from "./UserCard";
 import { Post } from "../../pages";
-import styles from "./postCard.module.scss";
+import { timeSince } from "../../utils/convertData";
+import { useLikePostMutation } from "../../redux/postApiSlice";
 
 const PostCard = (props) => {
   const {
-    id,
+    _id,
+    creatorId,
     userImage,
     userName,
-    timePosted,
     images,
+    createdAt,
+    description,
     likes,
     comments,
-    caption,
   } = props;
+
+  console.log(props);
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [likePost] = useLikePostMutation();
+
   return (
     <div
-      key={id}
-      className="bg-background w-full max-w-xl mx-auto flex flex-col gap-2 border-b pb-2  border-border"
+      key={_id}
+      className="w-4/5  max-w-xl mx-auto flex flex-col gap-2 border-b py-4 border-border"
     >
       <UserCard
+        id={creatorId}
         userImage={userImage}
         userName={userName}
-        timePosted={timePosted}
-        className={styles.userCard}
+        timePosted={timeSince(createdAt)}
+        className="px-3"
       />
 
-      <div className="relative p-1">
+      <div className="relative px-2">
         {images.length > 1 ? (
-          <Carousel images={images} height={"600px"} />
+          <Carousel images={images} className="rounded-lg" />
         ) : (
           <img
-            src={images[0]}
+            src={images[0].url}
             alt="Post image"
             className="w-full h-96 object-cover rounded-t-lg"
           />
         )}
       </div>
 
-      <div className="flex flex-col px-4 md:px-2">
-        <div className="flex gap-6">
-          <Icon icon="mdi:heart-outline" className="h-6 w-6 text-textPrimary" />
+      <div className="flex flex-col  px-4 md:px-2">
+        <div className="flex gap-4">
+          <Icon
+            icon="mdi:heart-outline"
+            className="h-6 w-6 text-textPrimary cursor-pointer"
+            onClick={() => likePost(_id)}
+          />
           <Icon
             icon="basil:comment-outline"
             className="h-6 w-6 cursor-pointer text-textPrimary"
             onClick={() =>
-              navigate(`/post/${id}`, { state: { background: location } })
+              navigate(`/post/${_id}`, { state: { background: location } })
             }
           />
           <Icon
@@ -62,21 +73,21 @@ const PostCard = (props) => {
           />
         </div>
         <p className="font-medium text-textSecondary">{likes} Likes</p>
-        {caption && (
-          <div className="flex gap-2">
-            <p className="text-textPrimary">{userName}</p>
-            <p className="text-textPrimary">{caption}</p>
+        {description && (
+          <div className="flex-1">
+            <p className="text-textPrimary inline mr-2">{userName}</p>
+            <p className="text-textPrimary inline break-words">{description}</p>
           </div>
         )}
-        {comments.length > 0 && (
+        {comments > 0 && (
           <div className="">
             <p
               className="cursor-pointer text-textSecondary"
               onClick={() =>
-                navigate(`/post/${id}`, { state: { background: location } })
+                navigate(`/post/${_id}`, { state: { background: location } })
               }
             >
-              View all {comments.length} comments
+              View all {comments} comment{comments > 1 ? "s" : ""}
             </p>
           </div>
         )}

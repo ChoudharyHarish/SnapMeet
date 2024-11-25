@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       colors: {
         background: "var(--background-color)",
+        bgSecondary: "var(--background-secondary)",
         textPrimary: "var(--text-primary)",
         textSecondary: "var(--text-secondary)",
         accent: "var(--accent-color)",

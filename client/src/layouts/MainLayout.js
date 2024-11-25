@@ -16,7 +16,7 @@ const MainLayout = (props) => {
           <TopBar />
           <div
             className={`mt-[60px] md:mt-0 w-full ${
-              addPadding ? "md:pl-[72px] lg:pl-60" : "md:pl-[72px]"
+              addPadding ? "md:pl-72 lg:pl-60" : "md:pl-[72px]"
             }`}
           >
             <Outlet />

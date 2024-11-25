@@ -11,6 +11,8 @@ import { connectDb } from "./src/db/connection.js";
 import authRouter from "./src/routes/auth.js";
 import userRouter from "./src/routes/user.js";
 import messageRouter from "./src/routes/chat.js";
+import postRouter from "./src/routes/posts.js";
+import commentsRouter from "./src/routes/comments.js";
 import socketHandler from "./src/socket/index.js";
 
 const app = express();
@@ -35,6 +37,8 @@ socketHandler(io);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/chats", messageRouter);
+app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/comments", commentsRouter);
 
 const port = process.env.PORT || 3001;
 

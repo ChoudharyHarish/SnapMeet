@@ -1,21 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserCard = (props) => {
-  const { userImage, userName, timePosted, className } = props;
+  const { id, userImage, userName, timePosted, className } = props;
+
+  const navigate = useNavigate();
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div
+      className={`flex items-center gap-3 ${className} cursor-pointer`}
+      onClick={() => navigate(`/profile/${id}`)}
+    >
       <img
         src={userImage}
         alt={userName}
-        className="w-10 h-10 rounded-full object-cover"
+        className="w-8 h-8 rounded-full object-cover"
       />
-      <div>
-        <p className="font-semibold text-textPrimary">{userName}</p>
-        {timePosted && (
-          <p className="text-textSecondary text-sm">{timePosted}</p>
-        )}
-      </div>
+
+      <p className="font-semibold text-textPrimary text-sm">{userName}</p>
+      {timePosted && <p className="text-textSecondary text-xs">{timePosted}</p>}
     </div>
   );
 };

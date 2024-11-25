@@ -9,7 +9,7 @@ const Indicator = (props) => {
 };
 
 const Carousel = (props) => {
-  const { images, height } = props;
+  const { images, className } = props;
   const [slideIndex, setSlideIndex] = useState(0);
 
   const handleNext = () => {
@@ -21,7 +21,7 @@ const Carousel = (props) => {
   };
 
   return (
-    <div className="container">
+    <div className={`container ${className}`}>
       <button className="btn prev" onClick={() => handlePrev()}>
         <Icon className="" icon="mingcute:left-fill" />
       </button>
@@ -31,7 +31,7 @@ const Carousel = (props) => {
         style={{ transform: `translateX(-${slideIndex * 100}%)` }}
       >
         {images.map((image, i) => (
-          <img key={i} src={image} alt={`slide-${i}`} />
+          <img key={i} src={image.url} alt={`slide-${i}`} />
         ))}
       </div>
 
