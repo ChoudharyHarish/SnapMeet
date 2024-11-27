@@ -32,17 +32,17 @@ const Suggested = () => {
     {
       userImage:
         "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
-      userName: "Mona Lisa",
+      userName: "Mona Lisad",
     },
     {
       userImage:
         "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
-      userName: "Mona Lisa",
+      userName: "Mona Lisade",
     },
     {
       userImage:
         "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
-      userName: "Mona Lisa",
+      userName: "Mona Lisadiy",
     },
   ];
 
@@ -50,7 +50,7 @@ const Suggested = () => {
     <section className="hidden xl:flex flex-col gap-4">
       <h1 className="text-2xl text-textPrimary">List of suggested users</h1>
       {users.map((user) => (
-        <UserItem {...user} />
+        <UserItem key={user.userName} {...user} />
       ))}
     </section>
   );

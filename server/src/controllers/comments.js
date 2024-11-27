@@ -60,12 +60,20 @@ const removeLikeFromComment = async (req, res) => {
 };
 
 const removeComment = async (req, res) => {
-  const { commentId } = req.params;
+  const { id: commentId } = req.params;
 
   try {
+    const comment = await Comment.findById(commentId);
+    await Post.findByIdAndUpdate(comment.postId, {
+      $inc: { commentsCount: -1 },
+    });
     const result = await Comment.findByIdAndDelete(commentId);
+
     if (result) {
-      return res.json({ message: "Comment removed successfully." });
+      return res.json({
+        message: "Comment removed successfully.",
+        id: comment.postId,
+      });
     } else {
       return res.status(404).json({ message: "Comment not found." });
     }
@@ -80,7 +88,6 @@ const getCommentsForPost = async (req, res) => {
 
   try {
     const comments = await Comment.find({ postId }).populate("userId", "name"); // Adjust to populate desired fields from User schema
-
     res.json(comments);
   } catch (error) {
     console.error("Error getting comments:", error);

@@ -18,6 +18,7 @@ export const signIn = createAsyncThunk("signIn", async (formData) => {
 });
 
 const initialState = {
+  createModalOpen: false,
   isAuthenticated: false,
   user: null,
 };
@@ -49,6 +50,9 @@ export const authSlice = createSlice({
       };
       localStorage.setItem("access_token", token);
     },
+    toggleCreateModal: (state) => {
+      state.createModalOpen = !state.createModalOpen;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
@@ -77,5 +81,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logout, googleLogin } = authSlice.actions;
+export const { login, logout, googleLogin, toggleCreateModal } =
+  authSlice.actions;
 export default authSlice.reducer;

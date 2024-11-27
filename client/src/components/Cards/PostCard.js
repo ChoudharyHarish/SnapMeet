@@ -21,8 +21,6 @@ const PostCard = (props) => {
     comments,
   } = props;
 
-  console.log(props);
-
   const navigate = useNavigate();
   const location = useLocation();
 

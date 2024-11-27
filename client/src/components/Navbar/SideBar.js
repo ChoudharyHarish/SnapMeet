@@ -2,6 +2,8 @@ import React from "react";
 
 import ListItem from "./ListItem";
 import { Images } from "../../assets";
+import { useDispatch } from "react-redux";
+import { toggleCreateModal } from "../../redux/authSlice";
 
 const SideBar = (props) => {
   const list = [
@@ -9,11 +11,16 @@ const SideBar = (props) => {
     { name: "Search", icon: "material-symbols:search", to: "/search" },
     { name: "Explore", icon: "material-symbols:explore", to: "/explore" },
     { name: "Messages", icon: "fe:messanger", to: "/inbox" },
-    { name: "Create", icon: "mdi:plus-box", to: "/create" },
+    {
+      name: "Create",
+      icon: "mdi:plus-box",
+      onClick: () => dispatch(toggleCreateModal()),
+    },
     { name: "Profile", icon: "gg-profile", to: "/profile" },
   ];
 
   const { expanded } = props;
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -37,7 +44,7 @@ const SideBar = (props) => {
 
         <div className="flex flex-col gap-2">
           {list.map((item) => (
-            <ListItem {...item} expanded={expanded} />
+            <ListItem key={item.name} {...item} expanded={expanded} />
           ))}
         </div>
       </div>

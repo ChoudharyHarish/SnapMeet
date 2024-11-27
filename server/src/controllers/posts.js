@@ -3,40 +3,6 @@ import mongoose from "mongoose";
 import Post from "../models/post.js";
 
 // user related stuff for post
-const getPosts = async (req, res) => {
-  try {
-    const posts = await Post.aggregate([
-      {
-        $lookup: {
-          from: "users",
-          localField: "creatorId",
-          foreignField: "_id",
-          as: "creator",
-        },
-      },
-      {
-        $unwind: "$creator",
-      },
-      {
-        $project: {
-          title: 1,
-          description: 1,
-          images: 1,
-          video: 1,
-          createdAt: 1,
-          updatedAt: 1,
-          creator: {
-            _id: 1,
-            image: 1,
-          },
-        },
-      },
-    ]);
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 const createPost = async (req, res) => {
   const { description, images, video } = req.body;
@@ -183,6 +149,7 @@ const getPost = async (req, res) => {
               $project: {
                 likes: 1,
                 createdAt: 1,
+                userId: "$user._id",
                 userName: "$user.userName",
                 userImage: "$user.userImage",
                 comment: "$text",
@@ -228,4 +195,4 @@ const getPost = async (req, res) => {
   }
 };
 
-export { getPosts, updatePost, createPost, deletePost, getAllPosts, getPost };
+export { updatePost, createPost, deletePost, getAllPosts, getPost };

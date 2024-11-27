@@ -37,7 +37,7 @@ const Carousel = (props) => {
 
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
         {images.map((image, i) => (
-          <Indicator active={i === slideIndex} />
+          <Indicator key={i} active={i === slideIndex} />
         ))}
       </div>
 

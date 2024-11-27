@@ -15,7 +15,7 @@ const Input = ({
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
-      className={`border-2 rounded p-2  w-full my-2 outline-none  ${className}`}
+      className={`p-2 w-full outline-none bg-background text-textPrimary ${className} `}
     />
   );
 };

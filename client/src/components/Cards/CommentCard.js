@@ -1,10 +1,21 @@
 import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { timeSince } from "../../utils/convertData";
+import {
+  useDeleteCommentMutation,
+  useLikeCommentMutation,
+} from "../../redux/postApiSlice";
+import { useSelector } from "react-redux";
 
 const CommentCard = (props) => {
-  const { userImage, userName, comment, likes, createdAt } = props;
-  console.log(createdAt);
+  const { _id, userId, userImage, userName, comment, likes, createdAt } = props;
+
+  const { user } = useSelector((state) => state.user);
+  console.log(user);
+
+  const [likeComment] = useLikeCommentMutation();
+  const [deleteComment] = useDeleteCommentMutation();
+
   return (
     <summary className="flex gap-4">
       <img
@@ -24,9 +35,16 @@ const CommentCard = (props) => {
           </div>
           <Icon
             icon="mdi:heart-outline"
-            className="h-6 w-6 text-textPrimary shrink-0"
-            // onClick = {}
+            className="h-6 w-6 text-textPrimary shrink-0 cursor-pointer"
+            onClick={() => likeComment(_id)}
           />
+          {user.userId === userId && (
+            <Icon
+              icon="material-symbols:delete-outline"
+              className="h-6 w-6 text-textPrimary shrink-0 cursor-pointer"
+              onClick={() => deleteComment(_id)}
+            />
+          )}
         </div>
 
         <div className="flex gap-2 text-sm">

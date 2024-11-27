@@ -17,27 +17,51 @@ export const postApi = createApi({
       query: ({ page, limit }) => ({
         url: `/posts?page=${page}&limit=${limit}`,
       }),
-      providesTags: (result) =>
-        result?.posts
-          ? result.posts.map((post) => ({ type: "Post", id: post._id }))
-          : [],
+      providesTags: [{ type: "Posts" }],
     }),
     getPost: builder.query({
       query: (id) => ({
         url: `/posts/${id}`,
       }),
-      providesTags: (result) =>
-        result ? [{ type: "Post", id: result._id }] : [],
+      providesTags: [{ type: "Post" }],
     }),
     likePost: builder.mutation({
       query: (id) => ({
         method: "POST",
         url: `/posts/likes/${id}`,
       }),
-      invalidatesTags: (result) => [{ type: "Post", id: result.id }],
+      invalidatesTags: [{ type: "Posts" }, { type: "Post" }],
+    }),
+    addComment: builder.mutation({
+      query: ({ id, comment }) => ({
+        method: "POST",
+        url: `/posts/comment/${id}`,
+        body: { text: comment },
+      }),
+      invalidatesTags: [{ type: "Post" }, { type: "Posts" }],
+    }),
+    likeComment: builder.mutation({
+      query: (id) => ({
+        method: "POST",
+        url: `/comments/${id}`,
+      }),
+      invalidatesTags: [{ type: "Post" }],
+    }),
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/comments/${id}`,
+      }),
+      invalidatesTags: [{ type: "Post" }, { type: "Posts" }],
     }),
   }),
 });
 
-export const { useGetPostsQuery, useGetPostQuery, useLikePostMutation } =
-  postApi;
+export const {
+  useGetPostsQuery,
+  useGetPostQuery,
+  useLikePostMutation,
+  useAddCommentMutation,
+  useLikeCommentMutation,
+  useDeleteCommentMutation,
+} = postApi;

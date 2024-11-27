@@ -3,13 +3,11 @@ import jwt from "jsonwebtoken";
 
 const authentication = async (req, res, next) => {
   const headers = req.headers.authorization;
-  if (!headers || !headers.startsWith("Bearer ")) {
+  if (headers === undefined || !headers || !headers.startsWith("Bearer ")) {
     res.status(500).json("Authentication invalid");
   }
 
-  console.log(headers);
-
-  const token = headers?.split(" ")[1];
+  const token = headers.split(" ")[1];
   try {
     if (token.length < 500) {
       const payload = jwt.verify(token, process.env.JWT_SECRET);
