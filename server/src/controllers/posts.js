@@ -1,7 +1,17 @@
 import mongoose from "mongoose";
 import multer from "multer";
+import path from "path";
 
-const upload = multer({ dest: "uploads/" });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "/tmp");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 import Post from "../models/post.js";
 
@@ -18,14 +28,14 @@ const createPost = async (req, res) => {
   const images = files
     .filter((file) => file.mimetype.startsWith("image/"))
     .map((file) => ({
-      url: `/uploads/${file.filename}`,
+      url: `/tmp/${file.filename}`,
       key: file.filename,
     }));
 
   const video = files
     .filter((file) => file.mimetype.startsWith("video/"))
     .map((file) => ({
-      url: `/uploads/${file.filename}`,
+      url: `/tmp/${file.filename}`,
       key: file.filename,
     }))[0];
 
