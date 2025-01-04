@@ -1,4 +1,4 @@
-import User from "../Models/user.js";
+import User from "../models/user.js";
 import forge from "node-forge";
 
 const signUp = async (req, res) => {

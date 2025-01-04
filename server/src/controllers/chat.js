@@ -5,7 +5,7 @@ import {
   signMessage,
 } from "../helpers/index.js";
 import Message from "../models/message.js";
-import User from "../Models/user.js";
+import User from "../models/user.js";
 
 const createMessage = async ({ message, receiverId, senderId }) => {
   try {

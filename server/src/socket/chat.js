@@ -1,4 +1,4 @@
-import User from "../Models/user.js";
+import User from "../models/user.js";
 import { createMessage } from "../controllers/chat.js";
 import { makeId } from "../helpers/makeId.js";
 import { verifyMessage } from "../helpers/verifySignature.js";
