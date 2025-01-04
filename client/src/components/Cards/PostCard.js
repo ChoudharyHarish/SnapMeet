@@ -7,6 +7,7 @@ import UserCard from "./UserCard";
 import { Post } from "../../pages";
 import { timeSince } from "../../utils/convertData";
 import { useLikePostMutation } from "../../redux/postApiSlice";
+import VideoPlayer from "../VideoPlayer";
 
 const PostCard = (props) => {
   const {
@@ -15,6 +16,7 @@ const PostCard = (props) => {
     userImage,
     userName,
     images,
+    video,
     createdAt,
     description,
     likes,
@@ -39,17 +41,21 @@ const PostCard = (props) => {
         className="px-3"
       />
 
-      <div className="relative px-2">
-        {images.length > 1 ? (
-          <Carousel images={images} className="rounded-lg" />
-        ) : (
-          <img
-            src={images[0].url}
-            alt="Post image"
-            className="w-full h-96 object-cover rounded-t-lg"
-          />
-        )}
-      </div>
+      {images.length > 0 && (
+        <div className="relative px-2">
+          {images.length > 1 ? (
+            <Carousel images={images} className="rounded-lg" />
+          ) : (
+            <img
+              src={images[0].url}
+              alt="Post image"
+              className="w-full h-96 object-cover rounded-t-lg"
+            />
+          )}
+        </div>
+      )}
+
+      {video && <VideoPlayer videoSource={video.url} />}
 
       <div className="flex flex-col  px-4 md:px-2">
         <div className="flex gap-4">

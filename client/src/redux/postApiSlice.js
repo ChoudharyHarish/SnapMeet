@@ -25,6 +25,14 @@ export const postApi = createApi({
       }),
       providesTags: [{ type: "Post" }],
     }),
+    createPost: builder.mutation({
+      query: (data) => ({
+        url: `/user/post`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [{ type: "Posts" }],
+    }),
     likePost: builder.mutation({
       query: (id) => ({
         method: "POST",
@@ -60,6 +68,7 @@ export const postApi = createApi({
 export const {
   useGetPostsQuery,
   useGetPostQuery,
+  useCreatePostMutation,
   useLikePostMutation,
   useAddCommentMutation,
   useLikeCommentMutation,

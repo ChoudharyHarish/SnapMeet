@@ -1,21 +1,42 @@
 import mongoose from "mongoose";
+import multer from "multer";
+
+const upload = multer({ dest: "uploads/" });
 
 import Post from "../models/post.js";
 
 // user related stuff for post
 
 const createPost = async (req, res) => {
-  const { description, images, video } = req.body;
-  const { userId } = req.user;
+  const { description } = req.body;
+  const files = req.files;
 
-  const newPost = new Post({
-    creatorId: userId,
-    description,
-    images,
-    video,
-  });
+  if (!files || files.length === 0) {
+    return res.status(400).json({ message: "No files uploaded." });
+  }
+
+  const images = files
+    .filter((file) => file.mimetype.startsWith("image/"))
+    .map((file) => ({
+      url: `/uploads/${file.filename}`,
+      key: file.filename,
+    }));
+
+  const video = files
+    .filter((file) => file.mimetype.startsWith("video/"))
+    .map((file) => ({
+      url: `/uploads/${file.filename}`,
+      key: file.filename,
+    }))[0];
 
   try {
+    const newPost = new Post({
+      creatorId: req.user.userId,
+      description,
+      images,
+      video,
+    });
+
     await newPost.save();
     res.status(201).json(newPost);
   } catch (error) {
@@ -195,4 +216,4 @@ const getPost = async (req, res) => {
   }
 };
 
-export { updatePost, createPost, deletePost, getAllPosts, getPost };
+export { updatePost, createPost, deletePost, getAllPosts, getPost, upload };

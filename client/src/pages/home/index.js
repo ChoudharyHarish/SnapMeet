@@ -1,7 +1,7 @@
 import React from "react";
 
-import Main from "./partials/Main";
 import Suggested from "./partials/Suggested";
+import Main from "./partials/Main";
 
 const Home = () => {
   return (
