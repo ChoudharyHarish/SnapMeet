@@ -24,14 +24,14 @@ const videoSocket = {
 
   sendOffer: (data) => {
     if (socket) {
-      console.log("Offer send : ", data);
+      // console.log("Offer send : ", data);
       socket.emit("send-offer", data);
     }
   },
 
   sendAnswer: (data) => {
     if (socket) {
-      console.log("Send answer : ", data);
+      // console.log("Send answer : ", data);
       socket.emit("send-answer", data);
     }
   },
@@ -81,6 +81,24 @@ const videoSocket = {
   unsubscribeFromIceCandidate: (callback) => {
     if (socket) {
       socket.off("ice-candidate", callback);
+    }
+  },
+
+  sendMessage: (body) => {
+    if (socket) {
+      socket.emit("send-message-call", body);
+    }
+  },
+
+  subscribeToMessages: (callback) => {
+    if (socket) {
+      socket.on("recieve-message-call", callback);
+    }
+  },
+
+  unsubscribeFromMessages: (callback) => {
+    if (socket) {
+      socket.off("receive-message-call", callback);
     }
   },
 };

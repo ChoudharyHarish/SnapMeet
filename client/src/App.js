@@ -17,6 +17,7 @@ import {
   Room,
   Search,
 } from "./pages";
+import Random from "./pages/Random";
 import MainLayout from "./layouts/MainLayout";
 import { login } from "./redux/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,6 +50,7 @@ function App() {
         </Route>
 
         <Route path="/rooms/:roomId" element={<Room />} />
+        <Route path="/random" element={<Random />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
 
