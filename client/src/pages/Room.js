@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Icon } from "@iconify/react";
 
@@ -11,8 +11,7 @@ const Room = () => {
 
   const [remoteStream, setRemoteStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
-  const [remoteStreams, setRemoteStreams] = useState([]);
-  const [peers, setPeers] = useState({});
+
   const userVideoRef = useRef();
   const peerRef = useRef(null);
 
@@ -78,7 +77,6 @@ const Room = () => {
     () => {
       peer.onRemoteStream((stream) => {
         setRemoteStream(stream);
-        setRemoteStreams((prevStreams) => [...prevStreams, stream]);
       });
     },
     peer,
@@ -152,7 +150,7 @@ const Room = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="flex bg-black w-full">
+      <div className="flex bg-black w-full flex-col">
         <div className="flex flex-col lg:flex-row w-1/2 h-full">
           <video
             className="border rounded-lg w-full"
@@ -173,20 +171,19 @@ const Room = () => {
               autoPlay
             ></video>
           )}
-
-          {screenStream && (
-            <video
-              className="rounded-lg w-full"
-              style={{ transform: "scaleX(-1)" }}
-              ref={(video) => {
-                if (video) {
-                  video.srcObject = screenStream;
-                }
-              }}
-              autoPlay
-            ></video>
-          )}
         </div>
+        {screenStream && (
+          <video
+            className="rounded-lg  h-1/4 w-1/4"
+            style={{ transform: "scaleX(1)" }}
+            ref={(video) => {
+              if (video) {
+                video.srcObject = screenStream;
+              }
+            }}
+            autoPlay
+          ></video>
+        )}
       </div>
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2  flex gap-6 bg-gray-800 p-4 rounded-lg">

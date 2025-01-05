@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
-import express from "express";
 import bodyParser from "body-parser";
+import { fileURLToPath } from "url";
+import { Server } from "socket.io";
+import express from "express";
 import path from "path";
 import cors from "cors";
 import http from "http";
-import { fileURLToPath } from "url";
-import { Server } from "socket.io";
 
 import { connectDb } from "./src/db/connection.js";
 
