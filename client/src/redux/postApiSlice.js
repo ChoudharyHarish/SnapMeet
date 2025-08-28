@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const postApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/v1",
+    // baseUrl: "http://localhost:3001/api/v1",
+    baseUrl: "http://65.2.183.191:3001/api/v1",
     // baseUrl: "https://snap-meet.vercel.app/api/v1",
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem("access_token");
