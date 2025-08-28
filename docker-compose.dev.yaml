@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  snapmeet-server:
+    image: ${SERVER_IMAGE}
+    container_name: snapmeet-server
+    ports:
+      - "3001:3001"
+    restart: always
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+
+  snapmeet-client:
+    image: ${CLIENT_IMAGE}
+    container_name: snapmeet-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    restart: always
