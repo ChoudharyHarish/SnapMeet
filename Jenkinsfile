@@ -26,10 +26,10 @@ pipeline {
                 script {
                     sh """
                         echo "Building Server image..."
-                        sudo docker build -t $SERVER_IMAGE ./server
+                        docker build -t $SERVER_IMAGE ./server
 
                         echo "Building Client image..."
-                        sudo docker build -t $CLIENT_IMAGE ./client
+                        docker build -t $CLIENT_IMAGE ./client
                     """
                 }
             }
@@ -43,10 +43,10 @@ pipeline {
                         echo "$DOCKER_CREDS_PSW" | docker login -u "$DOCKER_CREDS_USR" --password-stdin
 
                         echo "Pushing Server image..."
-                        sudo docker push $SERVER_IMAGE
+                        docker push $SERVER_IMAGE
 
                         echo "Pushing Client image..."
-                        sudo docker push $CLIENT_IMAGE
+                        docker push $CLIENT_IMAGE
                     """
                 }
             }
