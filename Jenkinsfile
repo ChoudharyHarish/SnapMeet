@@ -60,11 +60,9 @@ pipeline {
                         sed -i "s|^SERVER_IMAGE=.*|SERVER_IMAGE=$SERVER_IMAGE|" .env
                         sed -i "s|^CLIENT_IMAGE=.*|CLIENT_IMAGE=$CLIENT_IMAGE|" .env
             
-                        echo "Pulling latest images..."
-                        docker-compose pull
+                        echo "Running latest version..."
+                        docker-compose -f docker-compose.prod.yaml up -d
             
-                        echo "Starting services with docker-compose..."
-                        docker-compose up -d
                     """
                 }
             }
