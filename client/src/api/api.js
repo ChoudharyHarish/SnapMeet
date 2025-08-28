@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url = "http://localhost:3001/api/v1";
+// const url = "http://localhost:3001/api/v1";
+const url = "http://65.2.183.191:3001/api/v1";
 // const url = "https://snap-meet.vercel.app/api/v1";
 const Api = axios.create({ baseURL: url });
 
