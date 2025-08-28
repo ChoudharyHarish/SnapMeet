@@ -22,8 +22,6 @@ const Main = () => {
     }
   }, [data]);
 
-  console.log(posts);
-
   const fetchMoreData = () => {
     if (!isFetching && hasMore) {
       setPage((prevPage) => prevPage + 1);
