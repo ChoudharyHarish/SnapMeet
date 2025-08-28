@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 import CreateModal from "../components/modals/CreateModal";
-import BottomBar from "../components/navbar/BottomBar";
-import SideBar from "../components/navbar/SideBar";
-import TopBar from "../components/navbar/TopBar";
+import BottomBar from "../components/Navbar/BottomBar";
+import SideBar from "../components/Navbar/SideBar";
+import TopBar from "../components/Navbar/TopBar";
 
 const MainLayout = (props) => {
   const { expanded, addPadding } = props;

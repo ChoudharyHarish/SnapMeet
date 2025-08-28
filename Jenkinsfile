@@ -1,10 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label "snapmeet-agent"
+    }
+    
     environment {
-        SSH_KEY = credentials('ec2-deploy-key')
         DOCKER_CREDS = credentials('docker-hub-creds')
-        EC2_USER = 'ubuntu'
-        EC2_HOST = '13.234.7.210'
 
         SERVER_IMAGE = "harishchaudhary17/snapmeet:server-${BUILD_NUMBER}"
         CLIENT_IMAGE = "harishchaudhary17/snapmeet:client-${BUILD_NUMBER}"
@@ -55,21 +55,16 @@ pipeline {
             steps {
                 script {
                     sh """
-                    ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC2_USER@$EC2_HOST '
-                        echo "Creating .env file for docker-compose..."
-
-                        cd ~/app   
-
+                        cd ~/app
                         echo "Updating image versions in .env file..."
                         sed -i "s|^SERVER_IMAGE=.*|SERVER_IMAGE=$SERVER_IMAGE|" .env
                         sed -i "s|^CLIENT_IMAGE=.*|CLIENT_IMAGE=$CLIENT_IMAGE|" .env
-
+            
                         echo "Pulling latest images..."
                         docker-compose pull
-
+            
                         echo "Starting services with docker-compose..."
                         docker-compose up -d
-                    '
                     """
                 }
             }
