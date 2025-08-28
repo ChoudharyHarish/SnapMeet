@@ -6,8 +6,8 @@ pipeline {
     environment {
         DOCKER_CREDS = credentials('docker-hub-creds')
 
-        SERVER_IMAGE = "harishchaudhary17/snapmeet:server-${BUILD_NUMBER}"
-        CLIENT_IMAGE = "harishchaudhary17/snapmeet:client-${BUILD_NUMBER}"
+        SERVER_IMAGE = "harishchaudhary17/snapmeet:server-latest"
+        CLIENT_IMAGE = "harishchaudhary17/snapmeet:client-latest"
 
         SERVER_CONTAINER = 'snapmeet-server'
         CLIENT_CONTAINER = 'snapmeet-client'
