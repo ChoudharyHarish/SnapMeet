@@ -5,7 +5,7 @@ pipeline {
         SSH_KEY = credentials('ec2-deploy-key')
         DOCKER_CREDS = credentials('docker-hub-creds')
         EC2_USER = 'ubuntu'
-        EC2_HOST = '13.234.7.210'
+        EC2_HOST = '13.126.203.78'
 
         SERVER_IMAGE = "harishchaudhary17/snapmeet:server-${BUILD_NUMBER}"
         CLIENT_IMAGE = "harishchaudhary17/snapmeet:client-${BUILD_NUMBER}"
