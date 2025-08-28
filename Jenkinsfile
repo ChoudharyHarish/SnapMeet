@@ -3,10 +3,6 @@ pipeline {
         label "snapmeet-agent"
     }
     
-    agent {
-        label "snapmeet-agent"
-    }
-    
     environment {
         DOCKER_CREDS = credentials('docker-hub-creds')
 
