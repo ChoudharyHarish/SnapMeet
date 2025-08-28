@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        labels "docker-agent"
+    }
     
     environment {
         SSH_KEY = credentials('ec2-deploy-key')
