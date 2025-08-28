@@ -56,18 +56,28 @@ pipeline {
                 script {
                     sh """
                         cd ~/app
+                        echo "Cleaning up old containers..."
+                        docker-compose -f docker-compose.prod.yaml down || true
+
                         echo "Updating image versions in .env file..."
                         sed -i "s|^SERVER_IMAGE=.*|SERVER_IMAGE=$SERVER_IMAGE|" .env
                         sed -i "s|^CLIENT_IMAGE=.*|CLIENT_IMAGE=$CLIENT_IMAGE|" .env
             
                         echo "Running latest version..."
                         docker-compose -f docker-compose.prod.yaml up -d
-            
                     """
                 }
             }
-
         }
+    }
 
+    post {
+        always {
+            script {
+                // Cleanup Jenkins workspace (not Docker containers)
+                deleteDir()
+                echo 'Workspace cleaned.'
+            }
+        }
     }
 }
