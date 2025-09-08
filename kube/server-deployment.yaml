@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: snapmeet-server
-          image: harishchaudhary17/snapmeet:server-latest
+          image: harishchoudhary17/snapmeet-server:latest
           ports:
             - containerPort: 3001
           env:
