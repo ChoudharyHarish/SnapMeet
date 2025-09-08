@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: snapmeet-client
-          image: harishchaudhary17/snapmeet:client-dynamic
+          image: harishchoudhary17/snapmeet-client:dynamic
           ports:
             - containerPort: 80
           imagePullPolicy: Always
