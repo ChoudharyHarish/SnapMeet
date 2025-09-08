@@ -52,6 +52,7 @@ pipeline {
 
                         echo "Building Frontend Docker image..."
                         docker build -t ${FRONTEND_REPO}:${TAG} ./client
+                        docker build --build-arg REACT_APP_API_URL="http://snapmeet-server:3001/api/v1" -t ${FRONTEND_REPO}:${TAG} ./client
                     """
                 }
             }
