@@ -2,25 +2,26 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_CREDS = credentials('docker-hub-creds')
-        DOCKER_USER  = 'harishchaudhary17'
+        DOCKER_CREDS = credentials('docker-hub-creds')  // Docker Hub credentials
+        DOCKER_USER  = 'harishchoudhary17'
 
-        BACKEND_REPO = "${DOCKER_USER}/snapmeet-server"
+        BACKEND_REPO  = "${DOCKER_USER}/snapmeet-server"
         FRONTEND_REPO = "${DOCKER_USER}/snapmeet-client"
 
-        TAG = "build-${BUILD_NUMBER}"
+        TAG = "build-${BUILD_NUMBER}"  // auto-incremented build tag
     }
 
     stages {
+
         stage('Pre-checks') {
             steps {
                 script {
-                    // Fetch the latest commit message
+                    // Check last commit message for [ci skip] or [skip ci]
                     def lastCommitMsg = sh(script: "git log -1 --pretty=%B", returnStdout: true).trim()
                     echo "Last commit message: ${lastCommitMsg}"
 
                     if (lastCommitMsg.contains("[ci skip]") || lastCommitMsg.contains("[skip ci]")) {
-                        echo "Skipping build because commit message contains [ci skip]"
+                        echo "Skipping build due to commit message containing [ci skip]"
                         currentBuild.result = 'SUCCESS'
                         error("Build skipped intentionally")
                     }
@@ -30,7 +31,15 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/ChoudharyHarish/snapmeet.git'
+                sshagent(['github-ssh-key']) {
+                    sh '''
+                        echo "Cloning repo via SSH..."
+                        rm -rf SnapMeet
+                        git clone git@github.com:ChoudharyHarish/SnapMeet.git
+                        cd SnapMeet
+                        git checkout master
+                    '''
+                }
             }
         }
 
@@ -38,10 +47,10 @@ pipeline {
             steps {
                 script {
                     sh """
-                        echo "Building Backend image..."
+                        echo "Building Backend Docker image..."
                         docker build -t ${BACKEND_REPO}:${TAG} ./server
 
-                        echo "Building Frontend image..."
+                        echo "Building Frontend Docker image..."
                         docker build -t ${FRONTEND_REPO}:${TAG} ./client
                     """
                 }
@@ -51,46 +60,50 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    sh """
-                        echo "Logging in to DockerHub..."
-                        echo "$DOCKER_CREDS_PSW" | docker login -u "$DOCKER_CREDS_USR" --password-stdin
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-creds') {
+                        sh """
+                            echo "Pushing Backend image..."
+                            docker push ${BACKEND_REPO}:${TAG}
 
-                        echo "Pushing Backend image..."
-                        docker push ${BACKEND_REPO}:${TAG}
-
-                        echo "Pushing Frontend image..."
-                        docker push ${FRONTEND_REPO}:${TAG}
-                    """
+                            echo "Pushing Frontend image..."
+                            docker push ${FRONTEND_REPO}:${TAG}
+                        """
+                    }
                 }
             }
         }
 
-        stage('Update K8s Manifests') {
+        stage('Update K8s Manifests & Push') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                dir('SnapMeet') {
+                    sshagent(['github-ssh-key']) {
                         sh """
-                            echo "Updating Kubernetes manifests with new image tags..."
+                            echo "Updating Kubernetes manifests..."
                             sed -i "s|image: ${BACKEND_REPO}:.*|image: ${BACKEND_REPO}:${TAG}|" kube/server-deployment.yaml
                             sed -i "s|image: ${FRONTEND_REPO}:.*|image: ${FRONTEND_REPO}:${TAG}|" kube/client-deployment.yaml
-        
-                            git config user.email "ci@yourorg.com"
+
+                            git config user.email "jenkins@example.com"
                             git config user.name "jenkins-ci"
-        
+
                             git add kube/
-                            git commit -m "[ci skip] update manifests with ${TAG}"
-        
-                            # Use HTTPS URL with PAT to push changes
-                            git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@github.com/ChoudharyHarish/snapmeet.git
-                            git push origin master
+                            if ! git diff --cached --quiet; then
+                                git commit -m "[ci skip] update manifests with ${TAG}"
+                                git push origin master
+                                echo "Manifests pushed successfully."
+                            else
+                                echo "No changes to commit."
+                            fi
                         """
                     }
-           }
+                }
+            }
         }
-     }
+
+    }
 
     post {
         always {
+            echo "Cleaning workspace..."
             cleanWs()
         }
     }
