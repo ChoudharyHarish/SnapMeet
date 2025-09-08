@@ -1,14 +1,19 @@
-FROM node:18-alpine
-
+# Base stage
+FROM node:18-alpine AS base
 WORKDIR /app
+COPY package*.json ./
+RUN npm install
 
-# Copy package.json and install deps
+# Development stage
+FROM base AS dev
+COPY . .
+CMD ["npm", "start"]
+
+# Production stage
+FROM node:18-alpine AS prod
+WORKDIR /app
 COPY package*.json ./
 RUN npm install --production
-
-# Copy source code
 COPY . .
-
 EXPOSE 3001
-
 CMD ["node", "app.js"]
