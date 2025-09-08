@@ -26,30 +26,3 @@ spec:
                 name: snapmeet-client
                 port:
                   number: 80
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: snapmeet-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-    - host: snapmeet.local
-      http:
-        paths:
-          # React client
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: snapmeet-client
-                port:
-                  number: 80
-          # Node.js server
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: snapmeet-server
-                port:
-                  number: 3001
